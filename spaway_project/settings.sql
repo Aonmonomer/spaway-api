@@ -1,0 +1,3 @@
+CREATE DATABASE spaway;
+CREATE USER spawayuser WITH PASSWORD 'spaway';
+GRANT ALL PRIVILEGES ON DATABASE spaway TO spawayuser;
