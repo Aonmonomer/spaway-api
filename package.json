@@ -1,0 +1,30 @@
+{
+  "name": "spaway-api",
+  "version": "1.0.0",
+  "description": "Backend API for spaway website that allows users to find spas and create, read, update and delete review about them.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aonmonomer/spaway-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Aonmonomer/spaway-api/issues"
+  },
+  "homepage": "https://github.com/Aonmonomer/spaway-api#readme",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "morgan": "^1.10.0",
+    "pg": "^8.8.0",
+    "sequelize": "^6.21.6"
+  }
+}
