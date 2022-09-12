@@ -48,7 +48,7 @@ const DeleteSpa = async (req, res) => {
   try {
     let spaId = parseInt(req.params.spa_id)
     await Spa.destroy({ where: { id: spaId } })
-    res.send({ message: `Deleted business with an id of ${spaId}` })
+    res.send({ message: `Deleted spa with an id of ${spaId}` })
   } catch (error) {
     throw error
   }
