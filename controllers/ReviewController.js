@@ -19,6 +19,17 @@ const GetReviewDetails = async (req, res) => {
   }
 }
 
+const GetReviewBySpaId = async (req, res) => {
+  try {
+    const review = await Review.findAll({
+      where: { spaId: req.params.spa_id }
+    })
+    res.send(review)
+  } catch (error) {
+    throw error
+  }
+}
+
 const CreateReview = async (req, res) => {
   try {
     let ReviewBody = {
@@ -60,5 +71,6 @@ module.exports = {
   GetReviewDetails,
   CreateReview,
   UpdateReview,
-  DeleteReview
+  DeleteReview,
+  GetReviewBySpaId
 }
