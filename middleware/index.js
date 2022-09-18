@@ -20,12 +20,13 @@ const createToken = (payload) => {
 }
 
 const verifyToken = (req, res, next) => {
-  console.log('Verify token is being called.')
+  console.log('Verify token is being called.', res.locals.token)
   const { token } = res.locals
   try {
     let payload = jwt.verify(token, APP_SECRET)
+    console.log({ payload }, 'middleware')
     if (payload) {
-      res.locals.payload = payload
+      req.userId = payload.id
       return next()
     }
   } catch (error) {

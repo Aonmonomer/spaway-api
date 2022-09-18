@@ -1,5 +1,6 @@
 const { Router } = require('express')
 const { Review } = require('../models')
+const review = require('../models/review')
 
 const GetAllReviewDetails = async (req, res) => {
   try {
@@ -22,7 +23,8 @@ const GetReviewDetails = async (req, res) => {
 const GetReviewBySpaId = async (req, res) => {
   try {
     const review = await Review.findAll({
-      where: { spaId: req.params.spa_id }
+      where: { spaId: req.params.spa_id },
+      order: ['id']
     })
     res.send(review)
   } catch (error) {
@@ -33,6 +35,7 @@ const GetReviewBySpaId = async (req, res) => {
 const CreateReview = async (req, res) => {
   try {
     let ReviewBody = {
+      userId: req.userId,
       ...req.body
     }
     let review = await Review.create(ReviewBody)
@@ -44,12 +47,18 @@ const CreateReview = async (req, res) => {
 
 const UpdateReview = async (req, res) => {
   try {
+    const { userId } = req
     let reviewId = parseInt(req.params.review_id)
-    let updatedReview = await Review.update(req.body, {
-      where: { id: reviewId },
-      returning: true
-    })
-    res.send(updatedReview)
+    const review = await Review.findOne({ where: { id: reviewId, userId } })
+    if (review) {
+      let updatedReview = await Review.update(req.body, {
+        where: { id: reviewId },
+        returning: true
+      })
+      res.send(updatedReview)
+    } else {
+      res.status(401).send({ status: 'Error', msg: 'Unauthorized' })
+    }
   } catch (error) {
     throw error
   }
@@ -57,9 +66,17 @@ const UpdateReview = async (req, res) => {
 
 const DeleteReview = async (req, res) => {
   try {
+    const { userId } = req
+
     let reviewId = parseInt(req.params.review_id)
-    await Review.destroy({ where: { id: reviewId } })
-    res.send({ message: `Deleted review with an id of ${reviewId}` })
+    const review = await Review.findOne({ where: { id: reviewId, userId } })
+    console.log({ review })
+    if (review) {
+      await Review.destroy({ where: { id: reviewId } })
+      res.send({ message: `Deleted review with an id of ${reviewId}` })
+    } else {
+      res.status(401).send({ status: 'Error', msg: 'Unauthorized' })
+    }
   } catch (error) {
     throw error
   }

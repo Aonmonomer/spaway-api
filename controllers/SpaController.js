@@ -3,7 +3,9 @@ const { Spa } = require('../models')
 
 const GetAllSpaDetails = async (req, res) => {
   try {
-    const allSpas = await Spa.findAll()
+    const allSpas = await Spa.findAll({
+      order: ['id']
+    })
     res.send(allSpas)
   } catch (error) {
     throw error
